@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-hello
+spec:
+  selector:
+    matchLabels:
+      app: sample-hello
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: sample-hello
+    spec:
+      containers:
+        - name: sample-hello
+          image: oloiof/sample-hello:latest # Public Image Repository
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-hello
+spec:
+  type: ClusterIP
+  selector:
+    app: sample-hello
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
