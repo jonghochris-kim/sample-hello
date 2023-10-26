@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: sample-hello
   replicas: 1
-  minReadySeconds: 15
+  minReadySeconds: 10
   strategy:
     type: RollingUpdate
     rollingUpdate:
